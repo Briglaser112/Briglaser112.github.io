@@ -141,6 +141,45 @@ canShoot = true;
 } //end canShoot if statement
 }); //end keyDown function B_
 
+sjs.keyDown(DOWN_KEY, function(){
+if(canThrow == true){
+canThrow
+grenade.friction= 0;
+grenade.noBounds= true;
+if(r_facing == true){
+grenade.moveTo(player.getX()+44,player.getY()+7);
+grenade.pushRight(25.5);
+} else {
+grenade.moveTo(player.getX()+-60,player.getY()+7);
+grenade.pushLeft(25.5);
+}
+setTimeout(function(){
+canThrow = true;
+},2000);
+} //end canThrow if statement
+}); //end keyDown function DOWN_
+
+sjs.keyDown(V_KEY, function(){
+if(canThrow == true){
+canThrow = false;
+var grenade = new sjs.Image("Images/grenade.png");
+grenade.type = "grenade";
+grenade.setSize(100,50);
+grenade.friction= 0;
+grenade.noBounds= true;
+if(r_facing == true){
+grenade.moveTo(player2.getX()+44,player2.getY()+7);
+grenade.pushRight(25.5);
+} else {
+grenade.moveTo(player2.getX()+-60,player2.getY()+7);
+grenade.pushLeft(25.5);
+}
+setTimeout(function(){
+canThrow = true;
+},2000);
+} //end canThrow if statement
+}); //end keyDown function B_
+
 //Player2 Properties
 var player2 = new sjs.Image("Images/r_idle.png");
 player2.type = "player2";
@@ -210,6 +249,11 @@ l_track = 0;
 //onHit functions
 sjs.onHit("player","platform", function(x,y){
 sjs.stoppedBy(x,y);
+if(canJump == false && x.y < y.y-85){
+canJump = true;
+r_track = 0;
+l_track = 0;
+}
 });
 
 sjs.onHit("tank","bottom_screen", function(x,y){
@@ -283,22 +327,22 @@ player2.pushUp(50);
 
 sjs.onHit("player2","Spike", function(x,y){
 x.destroy();
-window.location = "level4.html";
+window.location = "level5.html";
 });
 
 sjs.onHit("player2","Spikes", function(x,y){
 x.destroy();
-window.location = "level4.html";
+window.location = "level5.html";
 });
 
 sjs.onHit("player","Spikes", function(x,y){
 x.destroy();
-window.location = "level4.html";
+window.location = "level5.html";
 });
 
 sjs.onHit("player","Spike", function(x,y){
 x.destroy();
-window.location = "level4.html";
+window.location = "level5.html";
 });
 
 sjs.onHit("gunenemy","bottom_screen", function(x,y){
@@ -319,12 +363,12 @@ sjs.bounceOff(x,y);
 
 sjs.onHit("player","gunenemy", function(x,y){
 x.destroy();
-window.location = "level4.html";
+window.location = "level5.html";
 });
 
 sjs.onHit("player2","gunenemy", function(x,y){
 x.destroy();
-window.location = "level4.html";
+window.location = "level5.html";
 });
 
 sjs.onHit("enemy","bottom_screen", function(x,y){
@@ -353,17 +397,17 @@ sjs.stoppedBy(x,y);
 
 sjs.onHit("player","enemy", function(x,y){
 x.destroy();
-window.location = "level4.html";
+window.location = "level5.html";
 });
 
 sjs.onHit("player","lava", function(x,y){
 x.destroy();
-window.location = "level4.html";
+window.location = "level5.html";
 });
 
 sjs.onHit("player2","lava", function(x,y){
 x.destroy();
-window.location = "level4.html";
+window.location = "level5.html";
 });
 
 sjs.onHit("player2","jump_pad", function(x,y){
@@ -376,10 +420,25 @@ sjs.stoppedBy(x,y);
 
 sjs.onHit("player2","enemy", function(x,y){
 x.destroy();
-window.location = "level4.html";
+window.location = "level5.html";
 });
 
 sjs.onHit("laser","enemy", function(x,y){
+x.destroy();
+y.destroy();
+});
+
+sjs.onHit("laser","gunenemy", function(x,y){
+x.destroy();
+y.destroy();
+});
+
+sjs.onHit("grenade","enemy", function(x,y){
+x.destroy();
+y.destroy();
+});
+
+sjs.onHit("grenade","gunenemy", function(x,y){
 x.destroy();
 y.destroy();
 });
@@ -422,6 +481,18 @@ canShoot = true;
 y.destroy();
 });
 
+var canThrow = false;
+sjs.onHit("player","powerUp2", function(x,y){
+canThrow = true;
+y.destroy();
+});
+
+var canThrow = false;
+sjs.onHit("player2","powerUp2", function(x,y){
+canThrow = true;
+y.destroy();
+});
+
 var score = 0;
 var score_txt = new sjs.Text("Score: 0", 21, "green");
 score_txt.right().offset(-20, 0);
@@ -445,7 +516,7 @@ setTimeout(function(){
 y.setImage("Images/flag_win.png");
 },1600 );
 setTimeout(function(){
-window.location = "level5.html";
+window.location = "level6.html";
 },2400 );
 } //end if statement
 });
@@ -462,7 +533,7 @@ setTimeout(function(){
 y.setImage("Images/flag_win.png");
 },1600 );
 setTimeout(function(){
-window.location = "level5.html";
+window.location = "level6.html";
 },2400 );
 } //end if statement
 });
