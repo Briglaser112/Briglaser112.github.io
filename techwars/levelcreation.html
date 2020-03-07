@@ -1,0 +1,563 @@
+<html>
+<head>
+<title> Platform Game </title>
+<script src="https://simplycodingcourses.com/files/simply.js"></script>
+<script>
+var level = [];
+function start(){
+sjs.open("target",800,500);
+var background = new sjs.Image("Images/background.png");
+background.setSize(2500, 500);
+
+
+//Background Music
+var playM = new Audio('Music/ova.mp3');
+var toggle = true;
+var musicOn = false;
+sjs.keyDown(SPACE_KEY, function(){
+if(toggle == true){
+if(musicOn == false){
+playM.play();
+musicOn = true;
+} else {
+playM.pause();
+musicOn = false;
+}
+toggle = false;
+setTimeout(function(){
+toggle = true;
+},1000);
+} //end if toggle statement
+}); //end keyDown function
+
+var testBtn = new sjs.Button("TEST", function(){
+localStorage.setItem('level', sjs.saveImageArray(level));
+window.open('test.html', '_blank');
+});
+
+var showBtn = new sjs.Button("Show", function(){
+var output = document.querySelector("#output");
+output.innerHTML = sjs.saveImageArray(level);
+});
+
+showBtn.offset(75, 0);
+
+//Player Properties
+var player = new sjs.Image("Images/1tankr.png");
+player.type = "player";
+player.setSize(150,100);
+player.setGravity(3);
+player.bottom();
+player.friction = .3;
+sjs.scrollable(player,background);
+
+//Player movement controls
+var rimages = ("Images/1tankr.png");
+
+var limages = ("Images/1tankl.png");
+
+var rfacing = true;
+var rtrack = 0;
+var ltrack = 0;
+
+sjs.keyDown(J_KEY, function(){
+rfacing = true;
+rtrack = rtrack + 1;
+player.pushRight(2);
+player.setImage(rimages[rtrack]);
+if(rtrack == 7){
+rtrack = 0;
+}
+if(rtrack >= 8){
+player.setImage("Images/f1tankr.png");
+}
+}); //end Right key
+
+sjs.keyDown(F_KEY, function(){
+rfacing = false;
+ltrack = ltrack + 1
+player.pushLeft(2);
+player.setImage(limages[ltrack]);
+if(ltrack == 7){
+ltrack = 0;
+}
+if(ltrack >= 8){
+player.setImage("Images/f1tankl.png");
+}
+}); //end Left key
+
+//Jumping Code
+var canJump = true;
+sjs.keyDown(Y_KEY, function(){
+if(canJump == true){
+canJump = false;
+player.pushUp(40);
+} //end if statement
+if(rfacing == true){
+player.setImage("Images/f1tankr.png");
+rtrack = 8;
+} else {
+player.setImage("Images/f1tankl.png");
+ltrack = 8
+}
+}); //end keyDown function
+
+window.addEventListener("keyup", function(e){
+if(e.keyCode == RIGHT_KEY){
+player.setImage("Images/1tankr.png");
+rtrack = 0
+} else if (e.keyCode == LEFT_KEY){
+player.setImage("Images/1tankl.png");
+ltrack = 0;
+} //end if statement
+}); //end EventListener function
+
+//onHit functions
+
+//wblock onHit functions
+
+sjs.onHit("wblock","wblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+//dblock functions
+sjs.onHit("dblock","dblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+
+sjs.onHit("dblock","wblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+//sblock functions
+sjs.onHit("sblock","sblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("sblock","dblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("sblock","wblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+//mblock functions
+
+sjs.onHit("mblock","sblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("mblock","wblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("wblock","mblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("mblock","dblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("mblock","mblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+//dmblock functions
+
+sjs.onHit("dmblock","dblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("dmblock","mblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("dmblock","wblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("dmblock","sblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("tmblock","tmblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+//tmblock functions
+
+sjs.onHit("tmblock","mblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("tmblock","dmblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("tmblock","tmblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("tmblock","dblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("tmblock","wblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("tmblock","sblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+//bblock functions
+
+sjs.onHit("bblock","dmblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("bblock","tmblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("bblock","dblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("bblock","wblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("bblock","sblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("bblock","mblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("bblock","bblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+//qblock functions
+
+sjs.onHit("qblock","dmblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","tmblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","mblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","dblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","sblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","bblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","wblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","qblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+//tnt functions
+
+sjs.onHit("qblock","dmblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","tmblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","mblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","dblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","sblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","bblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("qblock","wblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+//denemy functions
+
+sjs.onHit("denemy","bottom_screen", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("denemy",["left_screen","right_screen"], function(x,y){
+sjs.bounceOff(x,y);
+});
+
+sjs.onHit("qblock","qblock", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+//Trash Onhit function
+sjs.onHit("trash",["wblock", "mblock", "dmblock", "tmblock", "dblock", "bblock", "sblock", "qblock",], function(x,y){
+y.destroy();
+sjs.removeFromArray(level,y);
+});
+
+var trash = new sjs.Text("Trash",15,"black");
+trash.type = "trash";
+trash.moveTo(720,10);
+trash.fixed = true;
+trash.setHeight(60);
+trash.node.style.background = "lightgreen";
+trash.node.style.borderTop = "4px solid green";
+} //end start
+
+//Block Functions
+
+function wblock(){
+var wblock = new sjs.Image("Images/1wblock.png");
+level.push(wblock);
+wblock.type = "wblock";
+wblock.setHeight(30);
+wblock.center().offset(-sjs.gx,10);
+wblock.onMouseDown(function(){
+wblock.draggable();
+wblock.follow(sjs.mouse);
+});
+}
+
+function dblock(){
+var dblock = new sjs.Image("Images/3dblock.png");
+level.push(dblock);
+dblock.type = "dblock";
+dblock.setHeight(30);
+dblock.center().offset(-sjs.gx,10);
+dblock.onMouseDown(function(){
+dblock.draggable();
+dblock.follow(sjs.mouse);
+});
+}
+
+function sblock(){
+var sblock = new sjs.Image("Images/2sblock.png");
+level.push(sblock);
+sblock.type = "sblock";
+sblock.setHeight(30);
+sblock.center().offset(-sjs.gx,10);
+sblock.onMouseDown(function(){
+sblock.draggable();
+sblock.follow(sjs.mouse);
+});
+}
+
+function mblock(){
+var mblock = new sjs.Image("Images/mblock.png");
+level.push(mblock);
+mblock.type = "mblock";
+mblock.setHeight(30);
+mblock.center().offset(-sjs.gx,10);
+mblock.onMouseDown(function(){
+mblock.draggable();
+mblock.follow(sjs.mouse);
+});
+}
+
+function tmblock(){
+var tmblock = new sjs.Image("Images/tmblock.png");
+level.push(tmblock);
+tmblock.type = "tmblock";
+tmblock.setHeight(60);
+tmblock.center().offset(-sjs.gx,10);
+tmblock.onMouseDown(function(){
+tmblock.draggable();
+tmblock.follow(sjs.mouse);
+});
+}
+
+function dmblock(){
+var dmblock = new sjs.Image("Images/dmblock.png");
+level.push(dmblock);
+dmblock.type = "dmblock";
+dmblock.setHeight(30);
+dmblock.center().offset(-sjs.gx,10);
+dmblock.onMouseDown(function(){
+dmblock.draggable();
+dmblock.follow(sjs.mouse);
+});
+}
+
+function bblock(){
+var bblock = new sjs.Image("Images/1bblock.png");
+level.push(bblock);
+bblock.type = "bblock";
+bblock.setHeight(30);
+bblock.center().offset(-sjs.gx,10);
+bblock.onMouseDown(function(){
+bblock.draggable();
+bblock.follow(sjs.mouse);
+});
+}
+
+function qblock(){
+var qblock = new sjs.Image("Images/1qblock.png");
+level.push(qblock);
+qblock.type = "qblock";
+qblock.setHeight(30);
+qblock.center().offset(-sjs.gx,10);
+qblock.onMouseDown(function(){
+qblock.draggable();
+qblock.follow(sjs.mouse);
+});
+}
+
+function etrap(){
+var etrap = new sjs.Image("Images/etrap.png");
+level.push(etrap);
+etrap.type = "etrap";
+etrap.setHeight(30);
+etrap.center().offset(-sjs.gx,10);
+etrap.onMouseDown(function(){
+etrap.draggable();
+etrap.follow(sjs.mouse);
+});
+}
+
+function lblock(){
+var lblock = new sjs.Image("Images/lblock.png");
+level.push(lblock);
+lblock.type = "lblock";
+lblock.setHeight(30);
+lblock.center().offset(-sjs.gx,10);
+lblock.onMouseDown(function(){
+lblock.draggable();
+lblock.follow(sjs.mouse);
+});
+}
+
+function tnt(){
+var tnt = new sjs.Image("Images/tnt.png");
+level.push(tnt);
+tnt.type = "tnt";
+tnt.setHeight(30);
+tnt.center().offset(-sjs.gx,10);
+tnt.onMouseDown(function(){
+tnt.draggable();
+tnt.follow(sjs.mouse);
+});
+}
+
+function dbblock(){
+var dbblock = new sjs.Image("Images/dbblock.png");
+level.push(dbblock);
+dbblock.type = "dbblock";
+dbblock.setHeight(30);
+dbblock.center().offset(-sjs.gx,10);
+dbblock.onMouseDown(function(){
+dbblock.draggable();
+dbblock.follow(sjs.mouse);
+});
+}
+
+function wrench(){
+var wrench = new sjs.Image("Images/wrench.png");
+level.push(wrench);
+wrench.type = "wrench";
+wrench.setHeight(30);
+wrench.center().offset(-sjs.gx,10);
+wrench.onMouseDown(function(){
+wrench.draggable();
+wrench.follow(sjs.mouse);
+});
+}
+
+function bomb(){
+var bomb = new sjs.Image("Images/bomb.png");
+level.push(bomb);
+bomb.type = "bomb";
+bomb.setHeight(30);
+bomb.center().offset(-sjs.gx,10);
+bomb.onMouseDown(function(){
+bomb.draggable();
+bomb.follow(sjs.mouse);
+});
+}
+
+function denemy(){
+var denemy = new sjs.Image("Images/r_denemy.png");
+level.push(denemy);
+denemy.setHeight(50)
+denemy.setWidth(100)
+denemy.type = "denemy";
+denemy.center().offset(-sjs.gx,10);
+denemy.friction = 0;
+denemy.noBounds = true;
+denemy.setHFlipImages("Images/l_denemy.png","Images/r_denemy.png");
+denemy.onMouseDown(function(){
+denemy.follow(sjs.mouse);
+denemy.removeGravity();
+denemy.stop();
+});
+denemy.onMouseUp(function(){
+denemy.unfollow(sjs.mouse);
+denemy.setGravity();
+denemy.pushHFacing();
+denemy.accel=.5;
+});
+} //end denemy function
+
+</script>
+
+</script>
+</head>
+<body onload="start()">
+<h1> TECH WARS </h1>
+
+<center>
+<input type="image" src="Images/1wblock.png" onclick="wblock()">
+<input type="image" src="Images/3dblock.png" onclick="dblock()">
+<input type="image" src="Images/2sblock.png" onclick="sblock()">
+<input type="image" src="Images/mblock.png" onclick="mblock()">
+<input type="image" src="Images/tmblock.png" onclick="tmblock()">
+<input type="image" src="Images/dmblock.png" onclick="dmblock()">
+<input type="image" src="Images/1bblock.png" onclick="bblock()">
+<input type="image" src="Images/lblock.png" onclick="lblock()">
+<input type="image" src="Images/bomb.png" onclick="bomb()">
+<input type="image" src="Images/dbblock.png" onclick="dbblock()">
+<input type="image" src="Images/wrench.png" onclick="wrench()">
+<input type="image" src="Images/etrap.png" onclick="etrap()">
+<input type="image" src="Images/r_denemy.png" onclick="denemy()">
+<input type="image" src="Images/tnt.png" onclick="tnt()">
+</center>
+
+<div id="target" style="margin:auto;background:gray;"></div>
+
+<br/>
+<div id="output" style="margin:0 50 0 50;"></div>
+<br/><br/>
+
+</body>
+</html>
