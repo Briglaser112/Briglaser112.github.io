@@ -1,0 +1,575 @@
+<html>
+<head>
+<title> Tech Wars </title>
+<script src="https://simplycodingcourses.com/files/simply.js"></script>
+<script>
+var level = [];
+function start(){
+sjs.open("target",800,500);
+var background = new sjs.Image("Images/background.png");
+background.setSize(2500, 500);
+
+var backBtn = new sjs.Button("BACK", function(){
+window.location = "levelcreation.html";
+});
+
+var saveBtn = new sjs.Button("SAVE", function(){
+localStorage.setItem('slevel', sjs.saveImageArray(slevel));	
+});
+
+saveBtn.offset(90, 0);
+
+sjs.loadImageArray(localStorage.getItem('level'));
+
+//tank1 Properties
+var tank1 = new sjs.Image("Images/r_1tank.png");
+tank1.type = "tank1";
+tank1.setSize(90,45);
+tank1.setGravity(3);
+tank1.friction = .3;
+sjs.scrollable(tank1,background);
+
+//tank1 movement controls
+var r_image = ("Images/r_1tank.png");
+
+var l_image = ("Images/l_1tank.png");
+
+var r_facing = true;
+
+sjs.keyDown(J_KEY, function(){
+r_facing = true;
+tank1.pushRight(3);
+tank1.setImage(r_image);
+}); //end Right key
+
+sjs.keyDown(F_KEY, function(){
+r_facing = false;
+tank1.pushLeft(2);
+tank1.setImage(l_image);
+}); //end Left key
+
+//Jumping Code
+var canJump2 = false;
+sjs.keyDown(Y_KEY, function(){
+tank1.pushUp(55);
+if(r_facing == true){
+tank1.setImage("Images/r_f1tank.png");
+} else {
+tank1.setImage("Images/l_f1tank.png");
+}
+}); //end keyDown function
+
+window.addEventListener("keyup", function(e){
+if(e.keyCode == J_KEY){
+tank1.setImage("Images/r_1tank.png");
+} else if (e.keyCode == F_KEY){
+tank1.setImage("Images/l_1tank.png");
+} //end if statement
+}); //end EventListener function
+
+sjs.keyDown(B_KEY, function(){
+if(canShoot == true){
+canShoot = false;
+var bullet = new sjs.Image("Images/rsbullet.png");
+bullet.type = "bullet";
+bullet.setSize(10,10);
+bullet.friction= 0;
+bullet.noBounds= true;
+if(r_facing == true){
+bullet.moveTo(tank1.getX()+44,tank1.getY()+7);
+bullet.pushRight(25.5);
+} else {
+bullet.moveTo(tank1.getX()+-60,tank1.getY()+7);
+bullet.pushLeft(25.5);
+}
+setTimeout(function(){
+canShoot = true;
+},2000);
+} //end canShoot if statement
+}); //end keyDown function DOWN_
+
+//tank2 Properties
+var tank2 = new sjs.Image("Images/r_2tank.png");
+tank2.type = "tank2";
+tank2.setSize(90,45);
+tank2.setGravity(3);
+tank2.friction = .3;
+sjs.scrollable(tank2,background);
+
+//tank2 movement controls
+var r_image = ("Images/r_2tank.png");
+
+var l_image = ("Images/l_2tank.png");
+
+var r_facing = true;
+
+sjs.keyDown(RIGHT_KEY, function(){
+r_facing = true;
+tank2.pushRight(3);
+tank2.setImage(r_image);
+}); //end Right key
+
+sjs.keyDown(LEFT_KEY, function(){
+r_facing = false;
+tank2.pushLeft(2);
+tank2.setImage(l_image);
+}); //end Left key
+
+//Jumping Code
+var canJump = false;
+sjs.keyDown(UP_KEY, function(){
+if(canJump == true){
+tank2.pushUp(55);
+}
+if(r_facing == true){
+tank2.setImage("Images/r_f2tank.png");
+} else {
+tank2.setImage("Images/l_f2tank.png");
+}
+}); //end keyDown function
+
+window.addEventListener("keyup", function(e){
+if(e.keyCode == RIGHT_KEY){
+tank2.setImage("Images/r_2tank.png");
+} else if (e.keyCode == LEFT_KEY){
+tank2.setImage("Images/l_2tank.png");
+} //end if statement
+}); //end EventListener function
+
+sjs.keyDown(DOWN_KEY, function(){
+if(canShoot == true){
+canShoot = false;
+var bullet = new sjs.Image("Images/rsbullet.png");
+bullet.type = "bullet";
+bullet.setSize(10,10);
+bullet.friction= 0;
+bullet.noBounds= true;
+if(r_facing == true){
+bullet.moveTo(player1.getX()+44,player1.getY()+7);
+bullet.pushRight(25.5);
+} else {
+bullet.moveTo(player1.getX()+-60,player1.getY()+7);
+bullet.pushLeft(25.5);
+}
+setTimeout(function(){
+canShoot = true;
+},2000);
+} //end canShoot if statement
+}); //end keyDown function DOWN_
+
+//onHit functions
+
+//Player1 functions
+
+sjs.onHit("tank1","dblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+
+sjs.onHit("tank1", "denemy", function(x,y){ 
+window.location = "test.html";
+});
+
+sjs.onHit("tank1","bottom_screen", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","qblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","bblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","tblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","dbblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","tblock", function(x,y){
+x.pushUp(10);
+canJump = true;
+});
+
+sjs.onHit("tank1","dblock1", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","dbblock2", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","dmblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","tmblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","tnt", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","upiston", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","dpiston", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","rpiston", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","lpiston", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","mblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","wblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","lblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","sblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","sblockc", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank1","sblockc", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = false;
+setTimeout(function(){
+canJump = true;
+},5000);
+});
+
+//tank2 functions
+
+sjs.onHit("tank2","dblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+
+sjs.onHit("tank2", "denemy", function(x,y){ 
+window.location = "test.html";
+});
+
+sjs.onHit("tank2","bottom_screen", function(x,y){
+canJump = true;
+});
+
+sjs.onHit("tank2","qblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","bblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","tblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","dbblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","tblock", function(x,y){
+x.pushUp(10);
+canJump = true;
+});
+
+sjs.onHit("tank2","dblock1", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","dbblock2", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","dmblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","tmblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","tnt", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","upiston", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","dpiston", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","rpiston", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","lpiston", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","mblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","wblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","lblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","sblock", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","sblockc", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = true;
+});
+
+sjs.onHit("tank2","sblockc", function(x,y){
+sjs.stoppedBy(x,y);
+canJump = false;
+setTimeout(function(){
+canJump = true;
+},5000);
+});
+
+//denemy functions
+
+sjs.onHit("denemy","bottom_screen", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("enemy",["left_screen","right_screen"], function(x,y){
+sjs.bounceOff(x,y);
+});
+
+sjs.onHit("enemy","platform", function(x,y){
+if(x.isAboveOf(y) == true){
+sjs.stoppedBy(x,y);
+} else {
+sjs.bounceOff(x,y);
+}
+});
+
+sjs.onHit("tank","platform", function(x,y){
+if(x.isAboveOf(y) == true){
+sjs.stoppedBy(x,y);
+} else {
+sjs.bounceOff(x,y);
+}
+});
+
+sjs.onHit("tank",["left_screen","right_screen"], function(x,y){
+sjs.bounceOff(x,y);
+});
+
+sjs.onHit("tank","bottom_screen", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("player",["player","tank"], function(x,y){
+player.pushUp(50);
+});
+
+sjs.onHit("player","jump_pad", function(x,y){
+if(x.isAboveOf(y) == true){
+player.pushUp(50);
+} else {
+sjs.stoppedBy(x,y);
+}
+});
+
+sjs.onHit("player",["player","tank"], function(x,y){
+player2.pushUp(50);
+});
+
+sjs.onHit("player2","jump_pad", function(x,y){
+if(x.isAboveOf(y) == true){
+player2.pushUp(50);
+} else {
+sjs.stoppedBy(x,y);
+}
+});
+
+sjs.onHit("player","enemy", function(x,y){
+x.destroy();
+window.location = "gameover.html";
+});
+
+sjs.onHit("player2","enemy", function(x,y){
+x.destroy();
+window.location = "gameover.html";
+});
+
+sjs.onHit("laser","enemy", function(x,y){
+x.destroy();
+y.destroy();
+});
+
+sjs.onHit("laser",["platform","jump_pad", "powerUp","score","flag","block"], function(x,y){
+sjs.bounceOff(x,y);
+});
+
+sjs.onHit("laser",["right_screen","left_screen"], function(x,y){
+x.destroy();
+});
+
+sjs.onHit("player","block", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("player2","bottom_screen",function(x,y){
+sjs.stoppedBy(x,y);
+if(canJump == false){
+canJump = true;
+r_track = 0;
+l_track = 0;
+}
+});
+
+sjs.onHit("player2","block", function(x,y){
+sjs.stoppedBy(x,y);
+});
+
+sjs.onHit("enemy","block", function(x,y){
+sjs.bounceOff(x,y);
+});
+
+sjs.onHit("tank","block", function(x,y){
+sjs.stoppedBy(x,y);
+sjs.bounceOff(x,y);
+level.push(y);
+});
+
+var canShoot = false;
+sjs.onHit("player","powerUp", function(x,y){
+canShoot = true;
+y.destroy();
+});
+
+var canShoot = false;
+sjs.onHit("player2","powerUp", function(x,y){
+canShoot = true;
+y.destroy();
+});
+
+var score = 0;
+var score_txt = new sjs.Text("Score: 0", 21, "green");
+score_txt.right().offset(-20, 0);
+score_txt.fixed = true;
+sjs.onHit("player","score", function(x,y){
+score = score + 1;
+score_txt.setText("Score :"+ score);
+localStorage.setItem("score", score);
+y.destroy();
+});
+
+var flagOn = true;
+sjs.onHit("player","flag", function(x,y){
+x.stop();
+if(flagOn == true){
+flagOn = false;
+setTimeout(function(){
+y.setImage("Images/flag_none.png");
+},800 );
+setTimeout(function(){
+y.setImage("Images/flag_win.png");
+},1600 );
+setTimeout(function(){
+window.location = "test.html";
+},2400 );
+} //end if statement
+});
+
+sjs.onHit("player",["right_screen","left_screen","top_screen"],function(x,y){
+sjs.stoppedBy(x,y);
+player.noBounds = true;
+});
+
+sjs.onHit("player2",["right_screen","left_screen","top_screen"],function(x,y){
+sjs.stoppedBy(x,y);
+player2.noBounds = true;
+});
+
+} //end start
+
+</script>
+
+</script>
+</head>
+<body onload="start()">
+<h2> Tech Wars </h2>
+
+<center>
+<input type="image" src="Images/r_1tank.png" onclick="tank1()">
+<input type="image" src="Images/r_2tank.png" onclick="tank2()">
+<center>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>

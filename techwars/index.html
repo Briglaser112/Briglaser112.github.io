@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Tech Wars </title>
+<script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+<script>
+function start(){
+sjs.open();
+
+var background = new sjs.Image("Images/dblock.png");
+background.setSize(2000, 500);
+
+var designBtn = new sjs.Button("Design Level", function(){
+window.location = "levelcreation.html";
+levelcreation.center().offset(0, 50);
+});
+
+designBtn.center();
+}
+</script>
+</head>
+<body onload="start()">
+<h2> Tech Wars </h2>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>
